@@ -1,0 +1,3 @@
+application_text.md
+*.npz
+__pycache__/
