@@ -27,14 +27,14 @@ Key result: **Retrodiction improves BPB by up to 3.6% at early training (step 20
 
 ### Architecture
 
-Same as competition baseline (Top-3 level):
-- 11 layers, 512 dim, 3x MLP (27M params)
+Upgraded beyond baseline:
+- **16 layers, 512 dim, 3x MLP (39M params)** — larger than baseline 9L/27M
 - Muon optimizer + AdamW (embeddings/scalars)
 - EMA (decay=0.997, delayed start at 80%)
 - XSA on last 4 layers (exclusive self-attention)
 - BigramHash (2048 buckets) + SmearGate
 - LeakyReLU(0.5)^2 activation
-- Int6 quantization + zstd compression → 16MB
+- **Int6 quantization + lzma compression → 14.8MB (within 16MB limit)**
 
 ### Eval Enhancements
 
@@ -55,7 +55,18 @@ Same as competition baseline (Top-3 level):
 | 500 | 33M | 1.714 | ~1.72 | -0.010 | -0.6% |
 | 3500 | 229M | 1.464 | - | - | - |
 | 4500 | 295M | 1.408 | - | - | - |
-| 5000 | 328M | **1.3923** | - | 8.4 hrs on M1 | - |
+| 5000 | 328M | **1.3923** | - | 8.4 hrs on M1 (11L, 27M) |
+
+#### 16-Layer 39M Model (fits in 16MB with Int6)
+
+| Step | Tokens | 16L BPB | 11L BPB | Delta |
+|------|--------|---------|---------|-------|
+| 100 | 7M | 2.161 | 2.155 | +0.006 (larger model, slower start) |
+| 500 | 33M | 1.705 | 1.714 | -0.009 (catching up) |
+| 1000 | 66M | 1.576 | ~1.60 | -0.024 (pulling ahead) |
+| 2000 | 131M | **1.508** | 1.517 | **-0.009** (16L wins) |
+
+Quantization: 39M params × Int6 + lzma = **14.8MB** (within 16MB limit) - |
 
 #### Other methods tested (step 400, 26M tokens)
 
