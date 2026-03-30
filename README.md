@@ -55,7 +55,7 @@ Same as competition baseline (Top-3 level):
 | 500 | 33M | 1.714 | ~1.72 | -0.010 | -0.6% |
 | 3500 | 229M | 1.464 | - | - | - |
 | 4500 | 295M | 1.408 | - | - | - |
-| 5000 | 327M | running | - | - | - |
+| 5000 | 328M | **1.3923** | - | 8.4 hrs on M1 | - |
 
 #### Other methods tested (step 400, 26M tokens)
 
